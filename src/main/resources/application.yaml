@@ -36,3 +36,11 @@ spring:
 logging:
   level:
     root: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
