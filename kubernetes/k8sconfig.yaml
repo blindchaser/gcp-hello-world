@@ -33,7 +33,7 @@ metadata:
   name: gcp-demo-hpa-xli5
   namespace: default
 spec:
-  maxReplicas: 5
+  maxReplicas: 3
   metrics:
     - resource:
         name: cpu
