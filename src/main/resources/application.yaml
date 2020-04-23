@@ -16,20 +16,23 @@
 #spring.cloud.gcp.credentials.location=file:/path/to/service-account.json
 
 spring:
+  redis:
+    url: redis://10.214.199.139:6379
   cloud:
     gcp:
       spanner:
-        instance-id: qwiklabs-gcp-04-0a579b063e26
-        database: qwiklabs-gcp-04-0a579b063e26
+        instance-id: qwiklabs-gcp-01-92bc658df7b0
+        database: gcp-demo
       #      sql:
       #        database-name: covid-19
       #        instance-connection-name: qwiklabs-gcp-04-0a579b063e26:us-central1:qwiklabs-gcp-04-0a579b063e26
       #      project-id: qwiklabs-gcp-04-0a579b063e26
       credentials:
         location: classpath:credential.json
+      project-id: qwiklabs-gcp-01-92bc658df7b0
   datasource:
     initialization-mode: always
     continue-on-error: true
 logging:
   level:
-    root: INFO
+    root: DEBUG
