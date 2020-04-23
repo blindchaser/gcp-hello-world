@@ -35,4 +35,12 @@ spring:
     continue-on-error: true
 logging:
   level:
-    root: DEBUG
+    root: INFO
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
