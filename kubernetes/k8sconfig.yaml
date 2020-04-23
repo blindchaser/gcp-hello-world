@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gcp-demo
+  name: gcp-demo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gcp-demo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: gcp-demo
+    spec:
+      containers:
+        - image: gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-demo
+          imagePullPolicy: IfNotPresent
+          name: gcp-hello-world-sha256-1
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: gcp-demo
+  name: gcp-demo-hpa-xli5
+  namespace: default
+spec:
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gcp-demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gcp-demo
+  name: gcp-demo-service
+  namespace: default
+spec:
+  clusterIP: 10.0.6.97
+  externalTrafficPolicy: Cluster
+  ports:
+    - nodePort: 31781
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: gcp-demo
+  sessionAffinity: None
+  type: LoadBalancer
