@@ -1,8 +1,8 @@
 package com.sabre.labs.gcpdemo.controller;
 
 import com.sabre.labs.gcpdemo.feign.Covid19FeignClient;
-import com.sabre.labs.gcpdemo.spanner.repository.CasesInAllUSStateRepository;
-import com.sabre.labs.gcpdemo.spanner.table.CasesInAllUSStates;
+import com.sabre.labs.gcpdemo.jpa.entity.CasesInAllUSStates;
+import com.sabre.labs.gcpdemo.jpa.repository.CasesInAllUSStateRepositoryJPA;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class COVID19Controller {
-    private final CasesInAllUSStateRepository repository;
+    private final CasesInAllUSStateRepositoryJPA repository;
     private final Covid19FeignClient client;
 
     @GetMapping(value = "", produces = "application/json")
