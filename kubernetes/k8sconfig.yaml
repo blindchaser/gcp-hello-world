@@ -21,7 +21,7 @@ spec:
         app: gcp-demo
     spec:
       containers:
-        - image: gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-demo
+        - image: gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-demo
           imagePullPolicy: IfNotPresent
           name: gcp-hello-world-sha256-1
 ---

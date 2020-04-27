@@ -21,7 +21,10 @@ spring:
     gcp:
       credentials:
         location: classpath:credential.json
-      project-id: qwiklabs-gcp-03-7197bd37f0a4
+      project-id: qwiklabs-gcp-00-476cdbb22a44
+      spanner:
+        instance-id: qwiklabs-gcp-00-476cdbb22a44
+        database: storage-meta
 logging:
   level:
     root: INFO
@@ -33,3 +36,5 @@ management:
   endpoint:
     shutdown:
       enabled: true
+server:
+  address: 0.0.0.0

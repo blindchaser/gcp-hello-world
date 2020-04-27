@@ -1,6 +1,12 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t',
-           'gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-hello-world',
+           'gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-hello-world:latest',
            '.']
-images: ['gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-hello-world']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-hello-world:latest']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'gcp-demo', '--image',
+           'gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-hello-world:latest',
+           '--region', 'us-central1',
+           '--platform', 'managed', '--allow-unauthenticated']
