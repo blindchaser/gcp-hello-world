@@ -25,7 +25,7 @@ public class COVID19Controller {
 
     private final ObjectMapper mapper;
 
-    private final static String BUCKET_NAME = "qwiklabs-gcp-00-476cdbb22a44";
+    private final static String BUCKET_NAME = "qwiklabs-gcp-04-ea5cdb2f0588";
 
     private final StorageMetaRepository repository;
     private final Storage storage;

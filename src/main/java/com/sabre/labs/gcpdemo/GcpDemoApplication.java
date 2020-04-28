@@ -1,6 +1,8 @@
 package com.sabre.labs.gcpdemo;
 
 import com.sabre.labs.gcpdemo.spanner.SpannerSchemaTool;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,5 +23,11 @@ public class GcpDemoApplication {
     @Bean
     ApplicationRunner applicationRunner() {
         return (args) -> this.spannerSchemaTool.setUp();
+    }
+
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+                .addServersItem(new Server().url("/"));
     }
 }

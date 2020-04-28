@@ -1,12 +1,14 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
-           'gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-hello-world:latest',
+    args: ['build',
+           '--build-arg',
+           'PROJECT_ID=${PROJECT_ID}',
+           '--build-arg',
+           'SPANNER_DATABASE=gcp-demo',
+           '--build-arg',
+           'SPANNER_INSTANCE_ID=qwiklabs-gcp-04-ea5cdb2f0588',
+           '-t',
+           'gcr.io/${PROJECT_ID}/gcp-hello-world:latest',
            '.']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-hello-world:latest']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'deploy', 'gcp-demo', '--image',
-           'gcr.io/qwiklabs-gcp-00-476cdbb22a44/gcp-hello-world:latest',
-           '--region', 'us-central1',
-           '--platform', 'managed', '--allow-unauthenticated']
+    args: ['push', 'gcr.io/${PROJECT_ID}/gcp-hello-world:latest']
