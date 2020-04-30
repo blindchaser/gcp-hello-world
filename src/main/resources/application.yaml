@@ -3,10 +3,10 @@ spring:
     gcp:
       credentials:
         location: classpath:credential.json
-      project-id: ${PROJECT_ID}
+      project-id: qwiklabs-gcp-01-295376d7324a
       spanner:
-        instance-id: ${SPANNER_INSTANCE_ID}
-        database: ${SPANNER_DATABASE}
+        instance-id: qwiklabs-gcp-01-295376d7324a
+        database: gcp-demo
 logging:
   level:
     root: INFO

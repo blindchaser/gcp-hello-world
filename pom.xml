@@ -17,9 +17,86 @@
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <beam.version>2.19.0</beam.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>xchange-stream-core</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>xchange-bitstamp</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+
+        <!-- Dependency below due to a know issue -->
+        <!-- Please check https://stackoverflow.com/questions/46684071/error-using-spannerio-in-apache-beam -->
+        <!-- And https://issues.apache.org/jira/browse/BEAM-2837 -->
+        <dependency>
+            <groupId>com.google.api.grpc</groupId>
+            <artifactId>grpc-google-common-protos</artifactId>
+            <version>0.1.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.beam</groupId>
+            <artifactId>beam-sdks-java-io-google-cloud-platform</artifactId>
+            <version>${beam.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.api.grpc</groupId>
+                    <artifactId>grpc-google-common-protos</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Dependency for know issue ended -->
+
+        <!-- Dependency Conflict Begin -->
+        <dependency>
+            <groupId>com.google.cloud.bigtable</groupId>
+            <artifactId>bigtable-hbase-beam</artifactId>
+            <version>1.14.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Dependency Conflict End -->
+
+        <dependency>
+            <groupId>com.google.cloud.bigtable</groupId>
+            <artifactId>bigtable-hbase-dataflow</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-storage</artifactId>
+            <version>1.107.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.beam</groupId>
+            <artifactId>beam-runners-google-cloud-dataflow-java</artifactId>
+            <version>${beam.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.apis</groupId>
+                    <artifactId>google-api-services-storage</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.cloud</groupId>
+                    <artifactId>google-cloud-storage</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-gcp-starter-data-spanner</artifactId>

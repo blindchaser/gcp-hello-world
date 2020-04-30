@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
+import com.sabre.labs.gcpdemo.bigtable.BigTableDemo;
 import com.sabre.labs.gcpdemo.feign.Covid19FeignClient;
 import com.sabre.labs.gcpdemo.feign.dtos.CasesInAllUSStates;
 import com.sabre.labs.gcpdemo.spanner.StorageMetaRepository;
 import com.sabre.labs.gcpdemo.spanner.table.StorageMeta;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,24 +27,28 @@ public class COVID19Controller {
 
     private final ObjectMapper mapper;
 
-    private final static String BUCKET_NAME = "qwiklabs-gcp-04-ea5cdb2f0588";
+    private final static String BUCKET_NAME = "qwiklabs-gcp-01-295376d7324a";
 
+    private final BigTableDemo bigTableDemo;
     private final StorageMetaRepository repository;
-    private final Storage storage;
     private final Bucket bucket;
 
-    public COVID19Controller(Covid19FeignClient client, ObjectMapper mapper, StorageMetaRepository repository, Storage storage) {
+    public COVID19Controller(BigTableDemo bigTableDemo, Covid19FeignClient client, ObjectMapper mapper, StorageMetaRepository repository, Storage storage) {
+        this.bigTableDemo = bigTableDemo;
         this.client = client;
         this.mapper = mapper;
         this.repository = repository;
-        this.storage = storage;
         this.bucket = storage.get(BUCKET_NAME);
     }
 
     private Blob createFile(byte[] file, String fileName) {
         return bucket.create(fileName + ".json", file);
-//        storage.create(BlobInfo.newBuilder(BUCKET_NAME, fileName + ".json").build(),
-//                file);
+    }
+
+    @GetMapping(value = "/bigtable")
+    public ResponseEntity<?> runBigtableJob() {
+        bigTableDemo.run();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "", produces = "application/json")
