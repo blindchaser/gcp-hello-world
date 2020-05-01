@@ -1,0 +1,60 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "gcp-demo"
+  namespace: "default"
+  labels:
+    app: "gcp-demo"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "gcp-demo"
+  template:
+    metadata:
+      labels:
+        app: "gcp-demo"
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: "gcp-hello-world-1"
+          imagePullPolicy: "Always"
+          image: "gcr.io/qwiklabs-gcp-02-713c582b3d0a/gcp-hello-world:latest"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "gcp-demo-hpa-eoje"
+  namespace: "default"
+  labels:
+    app: "gcp-demo"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "gcp-demo"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "gcp-demo-service"
+  namespace: "default"
+  labels:
+    app: "gcp-demo"
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 8080
+  selector:
+    app: "gcp-demo"
+  type: "LoadBalancer"
+  loadBalancerIP: ""

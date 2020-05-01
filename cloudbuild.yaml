@@ -1,14 +1,15 @@
 steps:
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'install']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
-           '--build-arg',
-           'PROJECT_ID=${PROJECT_ID}',
-           '--build-arg',
-           'SPANNER_DATABASE=gcp-demo',
-           '--build-arg',
-           'SPANNER_INSTANCE_ID=qwiklabs-gcp-04-ea5cdb2f0588',
            '-t',
            'gcr.io/${PROJECT_ID}/gcp-hello-world:latest',
            '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/gcp-hello-world:latest']
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'gkeconfig.yaml']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=qwiklabs-gcp-02-713c582b3d0a'

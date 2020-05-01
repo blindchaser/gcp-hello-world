@@ -7,12 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 @EnableFeignClients
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableConfigurationProperties(ConfigProperty.class)
 public class GcpDemoApplication {
     private final SpannerSchemaTool spannerSchemaTool;
 

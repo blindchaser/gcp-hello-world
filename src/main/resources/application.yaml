@@ -3,10 +3,11 @@ spring:
     gcp:
       credentials:
         location: classpath:credential.json
-      project-id: ${PROJECT_ID}
+      project-id: qwiklabs-gcp-02-713c582b3d0a
       spanner:
-        instance-id: ${SPANNER_INSTANCE_ID}
-        database: ${SPANNER_DATABASE}
+        instance-id: qwiklabs-gcp-02-713c582b3d0a
+        database: gcp-demo
+      bucketName: qwiklabs-gcp-02-713c582b3d0a
 logging:
   level:
     root: INFO
@@ -14,9 +15,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "shutdown"
   endpoint:
     shutdown:
       enabled: true
-server:
-  address: 0.0.0.0
+springdoc:
+  show-actuator: true
