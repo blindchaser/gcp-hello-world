@@ -1,6 +1,15 @@
 steps:
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'install']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
-           'gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-hello-world',
+    args: ['build',
+           '-t',
+           'gcr.io/${PROJECT_ID}/gcp-hello-world:latest',
            '.']
-images: ['gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-hello-world']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/gcp-hello-world:latest']
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'gkeconfig.yaml']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=qwiklabs-gcp-02-713c582b3d0a'
