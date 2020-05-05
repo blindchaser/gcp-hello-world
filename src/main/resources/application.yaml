@@ -21,15 +21,15 @@ spring:
   cloud:
     gcp:
       spanner:
-        instance-id: qwiklabs-gcp-01-92bc658df7b0
-        database: gcp-demo
+        instance-id: cassie-spanner
+        database: cassie-spanner-db
       #      sql:
       #        database-name: covid-19
       #        instance-connection-name: qwiklabs-gcp-04-0a579b063e26:us-central1:qwiklabs-gcp-04-0a579b063e26
       #      project-id: qwiklabs-gcp-04-0a579b063e26
       credentials:
         location: classpath:credential.json
-      project-id: qwiklabs-gcp-01-92bc658df7b0
+      project-id: qwiklabs-gcp-02-b2c0ab278a6a
   datasource:
     initialization-mode: always
     continue-on-error: true
