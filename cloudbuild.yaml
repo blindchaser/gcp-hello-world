@@ -7,11 +7,11 @@ steps:
       - '--build-arg'
       - 'PROJECT_ID=${PROJECT_ID}'
       - '--build-arg'
-      - 'SPANNER_DATABASE=gcp-hello-world-db'
+      - 'SPANNER_DATABASE=gcp-demo-db'
       - '--build-arg'
-      - 'SPANNER_INSTANCE_ID=gcp-hello-world-spanner'
+      - 'SPANNER_INSTANCE_ID=gcp-demo-spanner-instance'
       - '-t'
-      - 'gcr.io/${PROJECT_ID}/gcp-hello-world:latest'
+      - 'gcr.io/${PROJECT_ID}/gcp-demo-image:latest'
       - '.'
 
   # This step pushes the image to Container Registry
@@ -19,7 +19,7 @@ steps:
     id: Push
     args:
       - 'push'
-      - 'gcr.io/${PROJECT_ID}/gcp-hello-world:latest'
+      - 'gcr.io/${PROJECT_ID}/gcp-demo-image:latest'
 
   # This step deploy the image to cloud run
   - name: 'gcr.io/cloud-builders/kubectl'
@@ -29,6 +29,6 @@ steps:
       - '-f'
       - 'kubernetes/k8sconfig.yaml'
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=gcp-hello-world-cluster'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=gcp-demo-cluster'
       - 'PROJECT_ID=${PROJECT_ID}'
