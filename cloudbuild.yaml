@@ -1,6 +1,34 @@
 steps:
+  # This step builds the container image.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
-           'gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-hello-world',
-           '.']
-images: ['gcr.io/qwiklabs-gcp-01-92bc658df7b0/gcp-hello-world']
+    id: Build
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'PROJECT_ID=${PROJECT_ID}'
+      - '--build-arg'
+      - 'SPANNER_DATABASE=gcp-demo-db'
+      - '--build-arg'
+      - 'SPANNER_INSTANCE_ID=gcp-demo-spanner-instance'
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/gcp-demo-image:latest'
+      - '.'
+
+  # This step pushes the image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Push
+    args:
+      - 'push'
+      - 'gcr.io/${PROJECT_ID}/gcp-demo-image:latest'
+
+  # This step deploy the image to cloud run
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: Deploy
+    args:
+      - 'apply'
+      - '-f'
+      - 'kubernetes/k8sconfig.yaml'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=gcp-demo-cluster'
+      - 'PROJECT_ID=${PROJECT_ID}'
